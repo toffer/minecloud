@@ -1,0 +1,161 @@
+{% extends 'launcher/base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script src="{% static 'js/eventsource.js' %}"></script>
+
+{% if instance and instance.state == 'initiating' %}
+    <div id="msm-up">
+        <!-- <h2>Server Status: <span class="state">{{ instance.state }}</span></h2> -->
+        <h2>Server is <span class="text-info">waking up</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-info alert-block"><p>It should be ready in 1-2 minutes...</p></div>
+                <h3>Server Info</h3>
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td class="server-info-field">Start Time</td>
+                            <td>{{ instance.start }}</td>
+                        </tr>
+                        <tr>
+                            <td class="server-info-field">Launched By</td>
+                            <td>{{ instance.launched_by.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% elif instance and instance.state == 'pending' %}
+    <div id="msm-up">
+        <h2>Server is <span class="text-info">waking up</span> at <span class="text-info">{{ instance.ip_address }}</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-info alert-block"><p>Now, it's restoring saved game data. Almost ready...</p></div>
+                <h3>Server Info</h3>
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td class="server-info-field">IP Address</td>
+                            <td>{{ instance.ip_address }}</td>
+                        </tr>
+                        <tr>
+                            <td class="server-info-field">Start Time</td>
+                            <td>{{ instance.start }}</td>
+                        </tr>
+                        <tr>
+                            <td class="server-info-field">Launched By</td>
+                            <td>{{ instance.launched_by.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% elif instance and instance.state == 'running' %}
+    <div id="msm-up">
+        <h2>Server is <span class="text-success">running</span> at <span class="text-success">{{ instance.ip_address }}</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-success alert-block">
+                    <h4><p>Join the server!</p></h4>
+                    <ul>
+                        <li>Open Minecraft, click Multiplayer, and edit the Server Info.</li>
+                        <li>Copy the IP address into the Server Address field.</li>
+                    </ul>
+                </div>
+
+                <h3>Server Info</h3>
+                <table class="table table-condensed">
+                    <tbody>
+                        <tr>
+                            <td class="server-info-field">IP Address</td>
+                            <td>{{ instance.ip_address }}</td>
+                        </tr>
+                        <tr>
+                            <td class="server-info-field">Start Time</td>
+                            <td>{{ instance.start }}</td>
+                        </tr>
+                        <tr>
+                            <td class="server-info-field">Launched By</td>
+                            <td>{{ instance.launched_by.username}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                {% if sessions %}
+                <h3>Current Players <span class="reload-help">(Reload page to update list)</span></h3>
+                <table class="table table-bordered table-condensed">
+                    <thead>
+                        <tr>
+                            <th>Player Name</th>
+                            <th>Log In</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for session in sessions %}
+                        <tr>
+                            <td>{{ session.user.username }}</td>
+                            <td>{{ session.login }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                {% else %}
+                <h3>No Current Players <span class="reload-help">(Reload page to update list)</span></h3>
+                {% endif %}
+
+                <form action="{% url 'mcl_terminate' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="instance_id" value="{{ instance.id }}">
+                    <button type="submit" class="btn btn-large btn-danger">Shut Down Server</button>
+                </form>
+            </div>
+        </div>
+    </div>
+{% elif instance and instance.state == 'shutting down' %}
+    <div id="msm-up">
+        <h2>Server is <span class="text-warning">shutting down</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-block"><p>You can wake it up again once shutdown is complete.</p></div>
+            </div>
+        </div>
+    </div>
+{% elif instance and instance.state == 'killing' %}
+    <div id="msm-up">
+        <h2>Server is <span class="text-warning">shutting down</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-block"><p>You can wake it up again once shutdown is complete.</p></div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div id="msm-down">
+        <h2>Server is <span class="text-error">sleeping</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-info alert-block"><p>Wanna play Minecraft? Wake up the server!</p></div>
+            </div>
+        </div>
+        <form action="{% url 'mcl_launch' %}" method="post">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-large btn-primary">Wake Up Server</button>
+        </form>
+    </div>
+{% endif %}
+
+    <script>
+    $().ready(function() {
+        var source = new EventSource("{% url 'mcl_sse' %}");
+
+        source.addEventListener('state', function(e) {
+            location.reload(true)
+        }, false);
+
+    });    
+    </script>
+{% endblock content %}

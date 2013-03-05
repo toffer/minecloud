@@ -1,0 +1,48 @@
+{% extends 'launcher/base.html' %}
+{% load staticfiles %}
+    {% block title %}Log In{% endblock %}
+    {% block description %}Log In{% endblock %}
+    {% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    {% endblock %}
+
+{% block navbar %}{% endblock %}
+{% block content %}
+  <div id="content-main">
+    <form action="" method="post" id="login-form" class="form-signin">
+      <h2 class="form-signin-heading">Please sign in</h2>
+      {% for error in form.non_field_errors %}
+      <div class="control-group error">
+        {% if "Please enter a correct username" in error %}
+        <span class="help-block error">Please enter a correct player name and password.</span>
+        {% else %}
+        <span class="help-block error">{{ error }}</span>
+        {% endif %}
+      </div>
+      {% endfor %}
+
+      <div class="control-group {% if form.username.errors %}error{% endif %}">
+        <input type="text" name="username" class="input-block-level" placeholder="Player Name">
+        {% if form.username.errors %}
+        <span class="help-inline">Player Name is required.</span>
+        {% endif %}
+      </div>
+      
+      <div class="control-group {% if form.password.errors %}error{% endif %}">
+        <input type="password" name="password" class="input-block-level" placeholder="Password">
+        {% if form.password.errors %}
+        <span class="help-inline">Password is required.</span>
+        {% endif %}
+      </div>
+
+      <input type="hidden" name="next" value="{{ next }}" />
+      {% csrf_token %}
+      <button class="btn btn-large btn-primary" type="submit">Sign in</button>
+    </form>
+
+    <script type="text/javascript">
+    document.getElementById('id_username').focus()
+    </script>
+  </div>
+{% endblock %}

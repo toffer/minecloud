@@ -1,0 +1,20 @@
+body {
+    padding-top: 80px;
+}
+
+.container-narrow {
+    margin: 0 auto;
+    max-width: 705px;
+}
+
+table .server-info-field {
+    font-weight: bold;
+    text-align: right;
+    padding: 4px 20px 4px 5px;
+}
+
+.reload-help {
+    font-size: 14px;
+    font-weight: lighter;
+    color: #da4f49;
+}

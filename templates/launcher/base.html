@@ -1,0 +1,38 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>{% block title %}MC Launcher{% endblock %}</title>
+    <meta name="description" content="{% block description %}Minecraft Launcher{% endblock %}">
+    <meta name="author" content="Tom Offermann">
+    {% block stylesheets %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+    {% endblock %}
+    <!--[if lt IE 9]>
+    <script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    {% block extra_head %}{% endblock %}
+</head>
+
+<body>
+    <div class="container-narrow">
+        {% block navbar %}
+        <div class="navbar navbar-fixed-top">
+            <div class="navbar-inner">
+                <div class="container-narrow">
+                    <a class="brand" href="{% url 'mcl_index' %}">MC Launcher</a>
+                    <ul class="nav pull-right">
+                        {% if user.is_authenticated %}
+                        <li><a href="{% url 'auth_logout' %}">Log Out</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+        {% endblock navbar %}
+        {% block content %}Empty page{% endblock %}
+    </div>
+</body>
+</html>

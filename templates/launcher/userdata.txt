@@ -1,0 +1,7 @@
+#cloud-config
+
+bootcmd:
+ - echo AWS_ACCESS_KEY_ID={{ AWS_ACCESS_KEY_ID }} >> /etc/environment
+ - echo AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }} >> /etc/environment
+ - echo MSM_S3_BUCKET={{ MSM_S3_BUCKET }} >> /etc/environment
+ - echo DATABASE_URL={{ DATABASE_URL }} >> /etc/environment

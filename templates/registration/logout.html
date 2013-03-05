@@ -1,0 +1,20 @@
+{% extends 'launcher/base.html' %}
+{% load staticfiles %}
+    {% block title %}Log Out{% endblock %}
+    {% block description %}Log Out{% endblock %}
+    {% block stylesheets %}
+    {{ block.super }}
+    <link rel="stylesheet" href="{% static 'css/registration.css' %}">
+    {% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div id="content-main">
+  <div class="form-signin">
+    <h2>You are logged out</h2>
+
+    <p>Would you like to <a href="{% url 'auth_login' %}">log back in</a>?</p>
+  </div>
+</div>
+{% endblock %}
