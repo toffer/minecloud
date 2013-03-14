@@ -79,7 +79,7 @@ Steps to get up-and-running on Heroku:
     REDIS_URL=redis://<user>:<password>@<host><port>/
 
     # Use "Production" Django settings, rather than "Development"
-    DJANGO_SETTINGS_MODULE=mclauncher.settings.production
+    DJANGO_SETTINGS_MODULE=minecloud.settings.production
 
     # Space-separated list of ALLOWED_HOSTS
     # New security setting in Django 1.5

@@ -15,7 +15,7 @@ urlpatterns = patterns('',
     url(r'^sse$', login_required(views.SSE.as_view()), name="mcl_sse"),
 )
  
-urlpatterns += patterns('mclauncher.launcher.views',
+urlpatterns += patterns('minecloud.launcher.views',
     url(r'^launch$', 'launch', name="mcl_launch"),
     url(r'^terminate$', 'terminate', name="mcl_terminate"),
     url(r'^$', 'index', name="mcl_index"),
