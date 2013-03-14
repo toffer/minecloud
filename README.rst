@@ -68,31 +68,44 @@ Steps to get up-and-running on Heroku:
 
     # Use the heroku command to set each config variable
     # See: https://devcenter.heroku.com/articles/config-vars
-    $ heroku config:set KEY=VALUE
 
     # Amazon AWS settings. AWS account must be authorized to use EC2 and S3.
-    AWS_ACCESS_KEY_ID=...
-    AWS_SECRET_ACCESS_KEY=...
+    $ heroku config:set AWS_ACCESS_KEY_ID=...
+    $ heroku config:set AWS_SECRET_ACCESS_KEY=...
 
-    # Settings for database and redis connections use Heroku-style URLs
-    DATABASE_URL=postgres://<user>:<password>@<host><port>/<name>
-    REDIS_URL=redis://<user>:<password>@<host><port>/
+    # Setting for the database connection uses a Heroku-style URL
+    # You can "promote" the database to set DATABASE_URL
+    # First, you find the name of your Postgres DB.
+    # It will be something like "HEROKU_POSTGRES...URL".
+    $ heroku config | grep HEROKU_POSTGRESQL
+
+    # Then, you "promote it" to set the DATABASE_URL config var.
+    $ heroku pg:promote <HEROKU_POSTGRESQL...URL>
+
+    # Setting for Redis connection also uses Heroku-style URL
+    # There's no "promote option" for redis, so copy the value
+    # for REDISTOGO_URL to set REDIS_URL.
+    $ heroku config:get REDISTOGO_URL
+    $ heroku config:set REDIS_URL=redis://<user>:<password>@<host><port>/
 
     # Use "Production" Django settings, rather than "Development"
-    DJANGO_SETTINGS_MODULE=minecloud.settings.production
+    $ heroku config:set DJANGO_SETTINGS_MODULE=minecloud.settings.production
 
     # Space-separated list of ALLOWED_HOSTS
     # New security setting in Django 1.5
     # See: https://docs.djangoproject.com/en/dev/releases/1.5/#allowed-hosts-required-in-production
-    DJANGO_ALLOWED_HOSTS="<app-name>.herokuapp.com <customdomain>.com"
+    $ heroku config:set DJANGO_ALLOWED_HOSTS="<app-name>.herokuapp.com <customdomain>.com"
 
     # Django Secret Key
     # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
-    DJANGO_SECRET_KEY=...
+    $ heroku config:set DJANGO_SECRET_KEY=...
 
     # Minecloud settings
-    MCL_EC2_AMI=<ami-id of custom AMI built by Minecloud-AMI>
-    MSM_S3_BUCKET=<name of S3 bucket in which to store Minecraft backup files>
+    $ heroku config:set MCL_EC2_AMI=<ami-id of custom AMI built by Minecloud-AMI>
+    $ heroku config:set MSM_S3_BUCKET=<name of S3 bucket in which to store Minecraft backup files>
+
+    # Review all your settings
+    $ heroku config
 
 6. **Deploy.** ::
 
