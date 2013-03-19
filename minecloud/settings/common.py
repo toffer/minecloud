@@ -200,6 +200,8 @@ if redis_url.password:
 BROKER_URL = os.getenv('DATABASE_URL').replace('postgres://', 'django://')
 djcelery.setup_loader()
 
+CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
+
 CELERYBEAT_SCHEDULE = {
     'sse_keepalive': {
         'task': 'minecloud.launcher.tasks.sse_keepalive',
