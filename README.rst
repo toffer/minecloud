@@ -31,11 +31,9 @@ In order to use the Minecloud web application to launch a Minecraft server on Am
 Once you've built the custom AMI, you're ready to install Minecloud. It's a pretty simple Django app, with the following prerequisites for installation:
 
 * Python 2.7 (untested on Python 3)
-* Database_
-* Redis
+* PostgreSQL (PostgreSQL's listen/notify feature is used as a message queue for pushing Server-Sent Events.)
 
 .. _Minecloud-AMI: https://github.com/toffer/minecloud-ami
-.. _Database: https://docs.djangoproject.com/en/1.5/topics/install/#database-installation
 
 
 Installation
@@ -45,7 +43,7 @@ Minecloud was designed to run on `Heroku's free tier`_, so the installation inst
 .. _Heroku's free tier: https://devcenter.heroku.com/articles/usage-and-billing
 .. _Getting Started with Django on Heroku: https://devcenter.heroku.com/articles/django
 
-**Note**: *If running the Minecloud web application elsewhere, pay attention to the required environment variables used for Django configuation described in step 6.*
+**Note**: *If running the Minecloud web application elsewhere, pay attention to the required environment variables used for Django configuation described in step 5.*
 
 
 Steps to get up-and-running on Heroku:
@@ -64,11 +62,7 @@ Steps to get up-and-running on Heroku:
 
     $ heroku addons:add heroku-postgresql:dev
 
-5. **Add free Redis add-on to your app.** ::
-
-    $ heroku addons:add redistogo:nano
-
-6. **Set environment variables.** ::
+5. **Set environment variables.** ::
 
     # Use the heroku command to set each config variable
     # See: https://devcenter.heroku.com/articles/config-vars
@@ -85,12 +79,6 @@ Steps to get up-and-running on Heroku:
 
     # Then, you "promote it" to set the DATABASE_URL config var.
     $ heroku pg:promote <HEROKU_POSTGRESQL...URL>
-
-    # Setting for Redis connection also uses Heroku-style URL
-    # There's no "promote option" for redis, so copy the value
-    # for REDISTOGO_URL to set REDIS_URL.
-    $ heroku config:get REDISTOGO_URL
-    $ heroku config:set REDIS_URL=redis://<user>:<password>@<host><port>/
 
     # Use "Production" Django settings, rather than "Development"
     $ heroku config:set DJANGO_SETTINGS_MODULE=minecloud.settings.production
@@ -111,17 +99,17 @@ Steps to get up-and-running on Heroku:
     # Review all your settings
     $ heroku config
 
-7. **Deploy.** ::
+6. **Deploy.** ::
 
     $ git push heroku master
 
-8. **Sync database and create superuser.**
+7. **Sync database and create superuser.**
 
    Every user (incuding superusers) should use their Minecraft username as their username for the Minecloud web application. ::
 
     $ heroku run python manage.py syncdb
 
-9. **Add authorized players.**
+8. **Add authorized players.**
 
    Log in to <app-name>.herokuapp.com/admin/ with the superuser account. Click on 'Users' to add accounts for players who will be white-listed to play on the Minecraft server. Player accounts have two required fields: "Username", which should be the player's Minecraft username, and "Password". 
 
@@ -129,9 +117,9 @@ Steps to get up-and-running on Heroku:
 
    * Every user who is a Staff member will be authorized as an Operator on the Minecraft server.
 
-10. **Launch Minecraft server.**
+9. **Launch Minecraft server.**
 
-    Open <app-name>.herokuapp.com/ and click the "Wake Up Server" button.
+   Open <app-name>.herokuapp.com/ and click the "Wake Up Server" button.
 
 
 License

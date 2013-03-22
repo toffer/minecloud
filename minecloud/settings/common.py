@@ -186,25 +186,13 @@ LOGGING = {
     }
 }
 
-# Redis
-redis_url =  urlparse.urlparse(os.environ.get('REDIS_URL', 'redis://localhost:6379'))
-REDIS_SSEQUEUE_CONNECTION_SETTINGS = {
-    'location': '%s:%s' % (redis_url.hostname, redis_url.port),
-    'db': 0,
-}
-if redis_url.password:
-    REDIS_SSEQUEUE_CONNECTION_SETTINGS['password'] = redis_url.password
-
-
 #Celery
 BROKER_URL = os.getenv('DATABASE_URL').replace('postgres://', 'django://')
-djcelery.setup_loader()
-
 CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
-
 CELERYBEAT_SCHEDULE = {
     'sse_keepalive': {
         'task': 'minecloud.launcher.tasks.sse_keepalive',
         'schedule': timedelta(seconds=20)
     },
 }
+djcelery.setup_loader()

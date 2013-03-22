@@ -6,10 +6,11 @@ from django.shortcuts import render, redirect
 from django.utils.timezone import utc
 from django.views.decorators.http import require_POST
 
-from django_sse.redisqueue import RedisQueueView, send_event
+from trunk import Trunk
 
 from . import tasks
 from .models import Instance, Session
+from .pgqueue import PostgresQueueView
 
 @login_required
 def index(request):
@@ -53,10 +54,9 @@ def terminate(request):
     if instance:
         instance.state = 'shutting down'
         instance.save()
-        send_event('state', 'shutting down')
         tasks.terminate.delay(instance.id)
     return redirect('mcl_index')
 
 
-class SSE(RedisQueueView):
+class SSE(PostgresQueueView):
     pass

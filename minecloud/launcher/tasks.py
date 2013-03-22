@@ -7,9 +7,9 @@ import time
 from celery import task
 from django.template.loader import render_to_string
 from django.utils.timezone import utc
-from django_sse.redisqueue import send_event
 
 from .models import Instance
+from .pgqueue import send_pg_event
 
 @task
 def launch(instance_id):
@@ -51,9 +51,7 @@ def launch(instance_id):
     instance.ip_address = server.ip_address
     instance.state = 'pending'
     instance.save()
-    send_event('name', instance.name)
-    send_event('ip_address', instance.ip_address)
-    send_event('state', instance.state)
+    send_pg_event('state', instance.state)
 
     # Send task to check if instance is running
     check_state.delay(instance_id, 'running')
@@ -65,7 +63,7 @@ def launch(instance_id):
 def check_state(instance_id, state):
     instance = Instance.objects.get(pk=instance_id)
     if instance.state == state:
-        send_event('state', instance.state)
+        send_pg_event('state', instance.state)
     # elif instance.state in ['initiating', 'pending', 'killing', 'shutting down']:
     else:
         check_state.retry(countdown=5)
@@ -85,9 +83,7 @@ def terminate(instance_id):
     # Save to DB and send notification
     timestamp = datetime.datetime.utcnow().replace(tzinfo=utc)
     instance.end = timestamp
-    # instance.state = 'killing'
     instance.save()
-    # send_event('state', 'killing')
 
     # Send task to check if instance has been terminated.
     check_state.delay(instance_id, 'terminated')
@@ -96,4 +92,4 @@ def terminate(instance_id):
 
 @task(ignore_result=True)
 def sse_keepalive():
-    send_event('keepalive', 'ping')
+    send_pg_event('keepalive', 'ping')

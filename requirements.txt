@@ -25,6 +25,6 @@ psycopg2==2.4.5
 pycrypto==2.6
 python-dateutil==1.5
 pytz==2012h
-redis==2.7.2
 sse==1.2
+trunk==0.3.0
 wsgiref==0.1.2
