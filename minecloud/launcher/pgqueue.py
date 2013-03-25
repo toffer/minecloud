@@ -49,6 +49,7 @@ def _connect():
 def send_pg_event(event_name, data, channel=PG_DEFAULT_CHANNEL):
     connection = _connect()
     connection.notify(channel, json.dumps([event_name, data]))
+    connection.close()
 
 
 __all__ = ['send_pg_event', 'PostgresQueueView']
