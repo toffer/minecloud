@@ -19,3 +19,7 @@ INSTALLED_APPS += ('djangosecure',)
 
 # Celery
 BROKER_USE_SSL = True
+
+# Use separate DB for SSEs
+DATABASES['sse'] = dj_database_url.config(env='SSE_DATABASE_URL')
+POSTGRES_SSEQUEUE_CONNECTION_SETTINGS = DATABASES['sse']

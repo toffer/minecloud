@@ -1,4 +1,4 @@
 # Development
-web: gunicorn minecloud.wsgi --bind 127.0.0.1:8000 --workers 4 --worker-class gevent --access-logfile -
+web: gunicorn minecloud.wsgi --bind 127.0.0.1:8000 --workers 1 --worker-class gevent --access-logfile -
 celeryd: python manage.py celeryd -B --loglevel=INFO
 redis: redis-server /usr/local/etc/redis.conf
