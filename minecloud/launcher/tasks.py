@@ -89,7 +89,3 @@ def terminate(instance_id):
     check_state.delay(instance_id, 'terminated')
 
     return True
-
-@task(ignore_result=True)
-def sse_keepalive():
-    send_pg_event('keepalive', 'ping')

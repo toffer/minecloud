@@ -188,11 +188,4 @@ LOGGING = {
 
 #Celery
 BROKER_URL = os.getenv('DATABASE_URL').replace('postgres://', 'django://')
-CELERYBEAT_SCHEDULER = "djcelery.schedulers.DatabaseScheduler"
-CELERYBEAT_SCHEDULE = {
-    'sse_keepalive': {
-        'task': 'minecloud.launcher.tasks.sse_keepalive',
-        'schedule': timedelta(seconds=20)
-    },
-}
 djcelery.setup_loader()
