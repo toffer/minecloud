@@ -6,6 +6,7 @@ import djcelery
 import dj_database_url
 
 from celery.schedules import timedelta
+from memcacheify import memcacheify
 from unipath import Path
 
 from django.core.exceptions import ImproperlyConfigured
@@ -189,3 +190,6 @@ LOGGING = {
 #Celery
 BROKER_URL = os.getenv('DATABASE_URL').replace('postgres://', 'django://')
 djcelery.setup_loader()
+
+# Memcache
+CACHES = memcacheify()

@@ -10,7 +10,9 @@ celerymon==1.0.3
 distribute==0.6.24
 dj-database-url==0.2.1
 django-celery==3.0.11
+django-heroku-memcacheify==0.4
 django-ping==0.2.0
+django-pylibmc-sasl==0.2.4
 django-registration==0.8
 django-secure==0.1.2
 django-sse==0.4.1
@@ -23,6 +25,7 @@ newrelic==1.10.2.38
 paramiko==1.9.0
 psycopg2==2.4.5
 pycrypto==2.6
+pylibmc==1.2.3
 python-dateutil==1.5
 pytz==2012h
 sse==1.2
