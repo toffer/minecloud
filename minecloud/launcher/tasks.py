@@ -74,13 +74,21 @@ def terminate(instance_id):
     # Retrieve instance obj from DB.
     instance = Instance.objects.get(pk=instance_id)
 
-    # Terminate instance
+    # Shut down, then terminate instance
     ec2_region = os.getenv('MCL_EC2_REGION', 'us-west-2')
     region = boto.ec2.get_region(ec2_region)
     conn = boto.connect_ec2(region=region)
+    results = conn.stop_instances(instance_ids=[instance.name])
+    mc_server = results[0]
+    mc_server.update()
+    while mc_server.state != u'stopped':
+        time.sleep(10)
+        mc_server.update()
     conn.terminate_instances(instance_ids=[instance.name])
 
     # Save to DB and send notification
+    # But first, refresh instance, since state has changed.
+    instance = Instance.objects.get(pk=instance_id)
     timestamp = datetime.datetime.utcnow().replace(tzinfo=utc)
     instance.end = timestamp
     instance.save()
