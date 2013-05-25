@@ -9,7 +9,7 @@ from django.template.loader import render_to_string
 from django.utils.timezone import utc
 
 from .models import Instance
-from .pgqueue import send_pg_event
+from .sseview import send_event
 
 @task
 def launch(instance_id):
@@ -51,7 +51,7 @@ def launch(instance_id):
     instance.ip_address = server.ip_address
     instance.state = 'pending'
     instance.save()
-    send_pg_event('state', instance.state)
+    send_event('state', time.time())
 
     # Send task to check if instance is running
     check_state.delay(instance_id, 'running')
@@ -63,7 +63,7 @@ def launch(instance_id):
 def check_state(instance_id, state):
     instance = Instance.objects.get(pk=instance_id)
     if instance.state == state:
-        send_pg_event('state', instance.state)
+        send_event('state', time.time())
     # elif instance.state in ['initiating', 'pending', 'killing', 'shutting down']:
     else:
         check_state.retry(countdown=5)

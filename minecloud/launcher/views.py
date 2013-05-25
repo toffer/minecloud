@@ -8,7 +8,8 @@ from django.views.decorators.http import require_POST
 
 from . import tasks
 from .models import Instance, Session
-from .pgqueue import PostgresQueueView
+from .sseview import SseView
+
 
 @login_required
 def index(request):
@@ -56,5 +57,5 @@ def terminate(request):
     return redirect('mcl_index')
 
 
-class SSE(PostgresQueueView):
+class SSE(SseView):
     pass
