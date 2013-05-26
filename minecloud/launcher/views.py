@@ -6,8 +6,6 @@ from django.shortcuts import render, redirect
 from django.utils.timezone import utc
 from django.views.decorators.http import require_POST
 
-from trunk import Trunk
-
 from . import tasks
 from .models import Instance, Session
 from .pgqueue import PostgresQueueView
