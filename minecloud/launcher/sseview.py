@@ -22,7 +22,7 @@ class SseView(BaseSseView):
         yield
 
         start_time = time.time()
-        default = json.dumps(['default', str(start_time)])
+        default = json.dumps(['reload', str(start_time)])
 
         # Use timeout to end request, and rely on client to reconnect.
         with gevent.Timeout(self.timeout, False):
@@ -37,7 +37,9 @@ class SseView(BaseSseView):
                 time.sleep(3)
 
 
-def send_event(event_name, data, key='last_updated'):
+def send_event(event_name, data=None, key='last_updated'):
+    if not data:
+        data = time.time()
     value = json.dumps([event_name, str(data)])
     cache.set(key, value)
 

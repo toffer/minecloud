@@ -8,7 +8,7 @@ from django.views.decorators.http import require_POST
 
 from . import tasks
 from .models import Instance, Session
-from .sseview import SseView
+from .sseview import SseView, send_event
 
 
 @login_required
@@ -43,6 +43,7 @@ def launch(request):
                             start=timestamp,
                             state='initiating')
         instance.save()
+        send_event('reload')
         tasks.launch.delay(instance.id)
     return redirect('mcl_index')
 
@@ -53,6 +54,7 @@ def terminate(request):
     if instance:
         instance.state = 'shutting down'
         instance.save()
+        send_event('reload')
         tasks.terminate.delay(instance.id)
     return redirect('mcl_index')
 

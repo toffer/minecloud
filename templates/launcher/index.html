@@ -152,7 +152,7 @@
     $().ready(function() {
         var source = new EventSource("{% url 'mcl_sse' %}");
 
-        source.addEventListener('state', function(e) {
+        source.addEventListener('reload', function(e) {
             location.reload(true)
         }, false);
 
