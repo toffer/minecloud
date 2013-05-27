@@ -41,6 +41,7 @@ def send_event(event_name, data=None, key='last_updated'):
     if not data:
         data = time.time()
     value = json.dumps([event_name, str(data)])
+    cache_timeout = 60*60*24*365    # One year
     cache.set(key, value)
 
 __all__ = ['send_event', 'SseView']
