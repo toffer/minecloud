@@ -43,7 +43,7 @@ def launch(request):
                             start=timestamp,
                             state='initiating')
         instance.save()
-        send_event('reload')
+        send_event('instance_state', instance.state)
         tasks.launch.delay(instance.id)
     return redirect('mcl_index')
 
@@ -54,7 +54,7 @@ def terminate(request):
     if instance:
         instance.state = 'shutting down'
         instance.save()
-        send_event('reload')
+        send_event('instance_state', instance.state)
         tasks.terminate.delay(instance.id)
     return redirect('mcl_index')
 

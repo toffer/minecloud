@@ -51,7 +51,7 @@ def launch(instance_id):
     instance.ip_address = server.ip_address
     instance.state = 'pending'
     instance.save()
-    send_event('reload')
+    send_event('instance_state', instance.state)
 
     # Send task to check if instance is running
     check_state.delay(instance_id, 'running')
@@ -63,7 +63,7 @@ def launch(instance_id):
 def check_state(instance_id, state):
     instance = Instance.objects.get(pk=instance_id)
     if instance.state == state:
-        send_event('reload')
+        send_event('instance_state', instance.state)
     # elif instance.state in ['initiating', 'pending', 'killing', 'shutting down']:
     else:
         check_state.retry(countdown=5)

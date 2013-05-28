@@ -152,8 +152,11 @@
     $().ready(function() {
         var source = new EventSource("{% url 'mcl_sse' %}");
 
-        source.addEventListener('reload', function(e) {
-            location.reload(true)
+        source.addEventListener('instance_state', function(e) {
+            var orig_state = "{{ instance.state }}" || "terminated";
+            var updated_state = e.data;
+            if (updated_state != orig_state)
+                location.reload(true)
         }, false);
 
     });    
