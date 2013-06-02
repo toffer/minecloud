@@ -89,7 +89,7 @@ class SelfUpdatingSse(Sse):
     continually refresh its buffer by reading new events with
     self.event_reader and continually yield them.
 
-    Because is yields all events, the SelfUpdatingSse object can itself be
+    Because it yields all events, the SelfUpdatingSse object can itself be
     passed as the iterator to StreamingHttpResponse, rather than creating a
     separate iterator to read the events from the Sse object.
 
@@ -110,6 +110,8 @@ class SelfUpdatingSse(Sse):
 
     def close(self):
         """
+        Clean up at the end of the Web request.
+
         This is called by the WSGI server at the end of the request and
         allows the reader to close any DB or Redis connections, as necessary.
 
