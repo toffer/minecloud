@@ -5,3 +5,6 @@ bootcmd:
  - echo AWS_SECRET_ACCESS_KEY={{ AWS_SECRET_ACCESS_KEY }} >> /etc/environment
  - echo MSM_S3_BUCKET={{ MSM_S3_BUCKET }} >> /etc/environment
  - echo DATABASE_URL={{ DATABASE_URL }} >> /etc/environment
+ - echo MEMCACHIER_SERVERS={{ MEMCACHIER_SERVERS }} >> /etc/environment
+ - echo MEMCACHIER_USERNAME={{ MEMCACHIER_USERNAME }} >> /etc/environment
+ - echo MEMCACHIER_PASSWORD={{ MEMCACHIER_PASSWORD }} >> /etc/environment

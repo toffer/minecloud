@@ -28,7 +28,10 @@ def launch(instance_id):
     ec2_env_vars = {'AWS_ACCESS_KEY_ID': os.getenv('AWS_ACCESS_KEY_ID'),
                     'AWS_SECRET_ACCESS_KEY': os.getenv('AWS_SECRET_ACCESS_KEY'),
                     'MSM_S3_BUCKET': os.getenv('MSM_S3_BUCKET'),
-                    'DATABASE_URL': os.getenv('DATABASE_URL')
+                    'DATABASE_URL': os.getenv('DATABASE_URL'),
+                    'MEMCACHIER_SERVERS': os.getenv('MEMCACHIER_SERVERS'),
+                    'MEMCACHIER_USERNAME': os.getenv('MEMCACHIER_USERNAME'),
+                    'MEMCACHIER_PASSWORD': os.getenv('MEMCACHIER_PASSWORD'),
                    }
     ec2_userdata = render_to_string('launcher/userdata.txt', ec2_env_vars)
 
