@@ -8,3 +8,4 @@ bootcmd:
  - echo MEMCACHIER_SERVERS={{ MEMCACHIER_SERVERS }} >> /etc/environment
  - echo MEMCACHIER_USERNAME={{ MEMCACHIER_USERNAME }} >> /etc/environment
  - echo MEMCACHIER_PASSWORD={{ MEMCACHIER_PASSWORD }} >> /etc/environment
+ - echo REDISTOGO_URL={{ REDISTOGO_URL }} >> /etc/environment

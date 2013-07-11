@@ -28,5 +28,6 @@ pycrypto==2.6
 pylibmc==1.2.3
 python-dateutil==1.5
 pytz==2012h
+redis==2.7.2
 sse==1.2
 wsgiref==0.1.2

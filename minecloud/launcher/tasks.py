@@ -2,6 +2,7 @@ import boto
 import boto.ec2
 import datetime
 import os
+import redis
 import time
 
 from celery import task
@@ -32,6 +33,7 @@ def launch(instance_id):
                     'MEMCACHIER_SERVERS': os.getenv('MEMCACHIER_SERVERS'),
                     'MEMCACHIER_USERNAME': os.getenv('MEMCACHIER_USERNAME'),
                     'MEMCACHIER_PASSWORD': os.getenv('MEMCACHIER_PASSWORD'),
+                    'REDISTOGO_URL': os.getenv('REDISTOGO_URL'),
                    }
     ec2_userdata = render_to_string('launcher/userdata.txt', ec2_env_vars)
 
@@ -80,8 +82,21 @@ def check_state(instance_id, state):
 
 @task
 def terminate(instance_id):
-    # Retrieve instance obj from DB.
+    # Send redis message to backup
+    redis_url = os.getenv('REDISTOGO_URL')
+    conn = redis.StrictRedis.from_url(redis_url)
+    conn.publish('command', 'backup')
+
+    # Wait for backup to finish.
     instance = Instance.objects.get(pk=instance_id)
+    while instance.state != 'backup finished':
+        time.sleep(5)
+        instance = Instance.objects.get(pk=instance_id)
+
+    # Update instance state
+    instance.state = 'stopping'
+    instance.save()
+    send_event('instance_state', instance.state)
 
     # Shut down, then terminate instance
     ec2_region = os.getenv('MCL_EC2_REGION', 'us-west-2')
