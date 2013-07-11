@@ -124,7 +124,25 @@
             </div>
         </div>
     </div>
-{% elif instance and instance.state == 'killing' %}
+{% elif instance and instance.state == 'backup started' %}
+    <div id="msm-up">
+        <h2>Server is <span class="text-warning">shutting down</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-block"><p>You can wake it up again once shutdown is complete.</p></div>
+            </div>
+        </div>
+    </div>
+{% elif instance and instance.state == 'backup finished' %}
+    <div id="msm-up">
+        <h2>Server is <span class="text-warning">shutting down</span>.</h2>
+        <div class="row">
+            <div class="span9">
+                <div class="alert alert-block"><p>You can wake it up again once shutdown is complete.</p></div>
+            </div>
+        </div>
+    </div>
+{% elif instance and instance.state == 'stopping' %}
     <div id="msm-up">
         <h2>Server is <span class="text-warning">shutting down</span>.</h2>
         <div class="row">
