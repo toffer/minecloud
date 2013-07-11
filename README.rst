@@ -31,7 +31,7 @@ In order to use the Minecloud web application to launch a Minecraft server on Am
 Once you've built the custom AMI, you're ready to install Minecloud. It's a pretty simple Django app, with the following prerequisites for installation:
 
 * Python 2.7 (untested on Python 3)
-* PostgreSQL (PostgreSQL's listen/notify feature is used as a message queue for pushing Server-Sent Events.)
+* A Database (Django developers recommend PostgreSQL)
 
 .. _Minecloud-AMI: https://github.com/toffer/minecloud-ami
 
