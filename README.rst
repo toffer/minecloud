@@ -120,15 +120,19 @@ Steps to get up-and-running on Heroku:
 
    As part of the syncdb process, you will be asked to create a superuser. Use your Minecraft username as the superuser name. Every user (incuding superusers) must use their Minecraft username as their username within the Minecloud web application.
 
-9. **Add authorized players.**
+9. **Restart Minecloud web application.** ::
 
-   Log in to <app-name>.herokuapp.com/admin/ with the superuser account. Click on 'Users' to add accounts for players who will be white-listed to play on the Minecraft server. Player accounts have two required fields: "Username", which should be the player's Minecraft username, and "Password". 
+    $ heroku ps:restart
 
-   * Every user is authorized both to play on and to launch the Minecraft server.
+10. **Add authorized players.**
 
-   * Every user who is a Staff member will be authorized as an Operator on the Minecraft server.
+    Log in to <app-name>.herokuapp.com/admin/ with the superuser account. Click on 'Users' to add accounts for players who will be white-listed to play on the Minecraft server. Player accounts have two required fields: "Username", which should be the player's Minecraft username, and "Password". 
 
-10. **Launch Minecraft server.**
+    * Every user is authorized both to play on and to launch the Minecraft server.
+
+    * Every user who is a Staff member will be authorized as an Operator on the Minecraft server.
+
+11. **Launch Minecraft server.**
 
     Open <app-name>.herokuapp.com/ and click the "Wake Up Server" button.
 
