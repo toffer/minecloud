@@ -49,6 +49,7 @@ def launch(instance_id):
     # Save to DB and send notification
     instance.name = server.id
     instance.ip_address = server.ip_address
+    instance.ami = server.image_id
     instance.state = 'pending'
     instance.save()
     send_event('instance_state', instance.state)
