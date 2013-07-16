@@ -96,9 +96,14 @@ Steps to get up-and-running on Heroku:
     # See: https://docs.djangoproject.com/en/dev/ref/settings/#std:setting-SECRET_KEY
     $ heroku config:set DJANGO_SECRET_KEY=...
 
-    # Minecloud settings
+    # Required Minecloud settings
     $ heroku config:set MCL_EC2_AMI=<ami-id of custom AMI built by Minecloud-AMI>
     $ heroku config:set MSM_S3_BUCKET=<name of S3 bucket in which to store Minecraft backup files>
+
+    # Optional Minecloud settings
+    # If you built your Minecloud-AMI in a different region than 'us-west-2', you need
+    # to set the MCL_EC2_REGION variable
+    $ heroku config:set MCL_EC2_REGION=<EC2 region name>
 
     # Review all your settings
     $ heroku config
