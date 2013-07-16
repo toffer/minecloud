@@ -114,9 +114,11 @@ Steps to get up-and-running on Heroku:
 
 8. **Sync database and create superuser.**
 
-   Every user (incuding superusers) should use their Minecraft username as their username for the Minecloud web application. ::
+   Run the following command to create the database tables required by Django. ::
 
     $ heroku run python manage.py syncdb
+
+   As part of the syncdb process, you will be asked to create a superuser. Use your Minecraft username as the superuser name. Every user (incuding superusers) must use their Minecraft username as their username within the Minecloud web application.
 
 9. **Add authorized players.**
 
