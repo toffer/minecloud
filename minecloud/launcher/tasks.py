@@ -46,6 +46,11 @@ def launch(instance_id):
         time.sleep(5)
         server.update()
 
+    # Sometimes there's a delay assigning the ip address.
+    while not server.ip_address:
+        time.sleep(5)
+        server.update()
+
     # Save to DB and send notification
     instance.name = server.id
     instance.ip_address = server.ip_address
