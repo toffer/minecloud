@@ -66,7 +66,11 @@ Steps to get up-and-running on Heroku:
 
     $ heroku addons:add memcachier:dev
 
-6. **Set environment variables.** ::
+6. **Add free Redistogo add-on to your app.** ::
+
+    $ heroku addons:add redistogo:nano
+
+7. **Set environment variables.** ::
 
     # Use the heroku command to set each config variable
     # See: https://devcenter.heroku.com/articles/config-vars
@@ -108,11 +112,11 @@ Steps to get up-and-running on Heroku:
     # Review all your settings
     $ heroku config
 
-7. **Deploy.** ::
+8. **Deploy.** ::
 
     $ git push heroku master
 
-8. **Sync database and create superuser.**
+9. **Sync database and create superuser.**
 
    Run the following command to create the database tables required by Django. ::
 
@@ -120,11 +124,11 @@ Steps to get up-and-running on Heroku:
 
    As part of the syncdb process, you will be asked to create a superuser. Use your Minecraft username as the superuser name. Every user (incuding superusers) must use their Minecraft username as their username within the Minecloud web application.
 
-9. **Restart Minecloud web application.** ::
+10. **Restart Minecloud web application.** ::
 
     $ heroku ps:restart
 
-10. **Add authorized players.**
+11. **Add authorized players.**
 
     Log in to <app-name>.herokuapp.com/admin/ with the superuser account. Click on 'Users' to add accounts for players who will be white-listed to play on the Minecraft server. Player accounts have two required fields: "Username", which should be the player's Minecraft username, and "Password". 
 
@@ -132,7 +136,7 @@ Steps to get up-and-running on Heroku:
 
     * Every user who is a Staff member will be authorized as an Operator on the Minecraft server.
 
-11. **Launch Minecraft server.**
+12. **Launch Minecraft server.**
 
     Open <app-name>.herokuapp.com/ and click the "Wake Up Server" button.
 
