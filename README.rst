@@ -43,7 +43,7 @@ Minecloud was designed to run on `Heroku's free tier`_, so the installation inst
 .. _Heroku's free tier: https://devcenter.heroku.com/articles/usage-and-billing
 .. _Getting Started with Django on Heroku: https://devcenter.heroku.com/articles/django
 
-**Note**: *If running the Minecloud web application elsewhere, pay attention to the required environment variables used for Django configuation described in step 5.*
+**Note**: *If running the Minecloud web application elsewhere, pay attention to the required environment variables used for Django configuation described in step 7.*
 
 
 Steps to get up-and-running on Heroku:
